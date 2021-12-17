@@ -4,8 +4,8 @@
     "memory": "10G",
     "cpus": "2",
     "headless": "true",
-    "iso_url": "https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-9.9.0-amd64-netinst.iso",
-    "iso_checksum": "d4a22c81c76a66558fb92e690ef70a5d67c685a08216701b15746586520f6e8e",
+    "iso_url": "https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-11.1.0-amd64-netinst.iso",
+    "iso_checksum": "8488abc1361590ee7a3c9b00ec059b29dfb1da40f8ba4adf293c7a30fa943eb2",
     "version": "{{ env `VERSION`}}",
     "ansible_args": "{{ env `ANSIBLE_ARGS`}}"
   },
@@ -49,14 +49,16 @@
     {
       "type": "shell",
       "inline": [
-        "apt install -y python",
+        "apt install -y python python3",
         "mount -t tmpfs -o size=8G tmpfs /tmp/"
       ]
     },
     {
       "type": "ansible",
       "playbook_file": "ansible/main.yml",
-      "extra_arguments": "{{ user `ansible_args` }}"
+      "extra_arguments": [
+	"-e ansible_python_interpreter=/usr/bin/python3"
+      ]
     },
     {
       "type": "file",
